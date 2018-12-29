@@ -22,7 +22,7 @@
 float ballLocation[] = {SCREEN_WIDTH/2, SCREEN_HEIGHT/2}; // Start at center
 int ballOrientationX = 1; // 0 left, 1 right
 int ballOrientationY = 1; // 0 down, 1 up
-int xSpeed = 1;
+float xSpeed = 2;
 float ySpeed = 2;
 int p1Score = 0;
 int p2Score = 0;
@@ -195,7 +195,7 @@ void checkPadBounce(){
     p2pad[i+PAD_LENGTH/2+1] = padLocation[1] - i;
   }
   for (int i=0; i<11; i++){
-    if (int(ballLocation[1]) == p1pad[i] && int(ballLocation[0]) == 3){
+    if (int(ballLocation[1]) == p1pad[i] && int(ballLocation[0]) <= 3){
       ballOrientationX = 1;
       ySpeed = iToSpeed(i);
       break;
