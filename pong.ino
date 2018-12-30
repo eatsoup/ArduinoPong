@@ -27,6 +27,8 @@ float ySpeed = 2;
 int p1Score = 0;
 int p2Score = 0;
 int padLocation[] = {SCREEN_HEIGHT/2, SCREEN_HEIGHT/2}; // Player1, Player2
+int p1botMode = 0;
+int p2botMode = 0;
 
 // Define screen
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
@@ -47,8 +49,18 @@ void setup(){
     for(;;); // Don't proceed, loop forever
   }else{
     Serial.println(F("BOOT"));
+  }  
+  
+  // Check for botMode
+  if (digitalRead(4) == HIGH && digitalRead(5) == HIGH){
+    p2botMode = 1;
+  }
+  if (digitalRead(2) == HIGH && digitalRead(3) == HIGH){
+    p1botMode = 1;
   }
 }
+
+
 
 void moveBall(){
   if(ballOrientationX == 0){
@@ -118,22 +130,22 @@ void drawLine(){
 void checkButtons(){
   if (digitalRead(P1UP) == HIGH){
     if (padLocation[0] > PAD_LENGTH/2){
-      padLocation[0]--;
+      padLocation[0] = padLocation[0] - 2;
     }
   }
   if (digitalRead(P1DOWN) == HIGH){
     if (padLocation[0] < SCREEN_HEIGHT - PAD_LENGTH/2){
-      padLocation[0]++;
+      padLocation[0] = padLocation[0] + 2;
     }
   }
   if (digitalRead(P2UP) == HIGH){
     if (padLocation[1] > PAD_LENGTH/2){
-      padLocation[1]--;
+      padLocation[1] = padLocation[1] - 2;
     }
   }
   if (digitalRead(P2DOWN) == HIGH){
     if (padLocation[1] < SCREEN_HEIGHT - PAD_LENGTH/2){
-      padLocation[1]++;
+      padLocation[1] = padLocation[1] + 2;
     }
   }
 }
@@ -213,9 +225,28 @@ void resetBall(){
   ballLocation[1] = SCREEN_HEIGHT/2;
 }
 
+void botMove(){
+  if (p1botMode == 1){
+    if (padLocation[0] < int(ballLocation[1])){
+      padLocation[0] = padLocation[0]+2;
+    }else if (padLocation[0] > int(ballLocation[1])){
+      padLocation[0] = padLocation[0]-2;
+    }
+  }
+  if (p2botMode == 1){
+    if (padLocation[1] < int(ballLocation[1])){
+      padLocation[1] = padLocation[1]+2;
+    }else if (padLocation[1] > int(ballLocation[1])){
+      padLocation[1] = padLocation[1]-2;
+    }
+  }
+}
 void loop(){
   // Update buttonstate
   checkButtons();
+
+  // Move bot if enabled
+  botMove();
 
   // Move ball
   moveBall();
@@ -232,4 +263,3 @@ void loop(){
   drawLine();
   display.display();
 }
-
