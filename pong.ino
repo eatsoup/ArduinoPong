@@ -9,6 +9,7 @@
 #define P2UP 4
 #define P2DOWN 5
 #define PAD_LENGTH 10
+#define AUDIO 8
 
 // Libs
 #include <Arduino.h>
@@ -159,22 +160,26 @@ void checkButtons(){
 void checkBounce(){
     // P2 score
     if(ballLocation[0] <= 0+1){
+        tone(AUDIO, 300, 500);
         p2Score++;
         blinkScreen();
         resetBall();
     }
     // P1 score
     if(ballLocation[0] >= SCREEN_WIDTH-1){
+        tone(AUDIO, 300, 500);
         p1Score++;
         blinkScreen();
         resetBall();
     }
     // Bounce bottom
     if(ballLocation[1] <= 0+1){
+        tone(AUDIO, 500, 100);
         ballOrientationY = 1;
     }
     // Bounce top
     if(ballLocation[1] >= SCREEN_HEIGHT-1){
+        tone(AUDIO, 500, 100);
         ballOrientationY = 0;
     }
 }
@@ -217,12 +222,14 @@ void checkPadBounce(){
     for (int i=0; i<11; i++){
         if (int(ballLocation[1]) == p1pad[i] && int(ballLocation[0]) <= 3){
             // P1 Pad hit
+            tone(AUDIO, 1000, 100);
             ballOrientationX = 1;
             ySpeed = iToSpeed(i);
             break;
         }
         if (int(ballLocation[1]) == p2pad[i] && int(ballLocation[0]) >= SCREEN_WIDTH - 4){
             // P2 Pad hit
+            tone(AUDIO, 1000, 100);
             ballOrientationX = 0;
             ySpeed = iToSpeed(i);
             break;
