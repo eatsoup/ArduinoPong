@@ -1,11 +1,15 @@
-# arduinoPong
+# 2Player Pong
+Beginner arduino project.
 
-## Setup:
- - aPad & bPad array
- - ball Array
- - speed variable (x)
- - velocity variable (y)
+Requirements
+-------------
+ - Arduino
+ - SSD1306 I2C oled
+ - 1x 100 Ohm resistor
+ - 4x 10K Ohm resistor
+ - 4x Pushbutton
+ - 1x PC Speaker (optional)
 
-## Functions:
- - moveBall(x, y)
- - movePad(pad, y)
+Breadboard
+----------
+![Breadboard](Breadboard.png)
