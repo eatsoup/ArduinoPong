@@ -60,8 +60,6 @@ void setup(){
     }
 }
 
-
-
 void moveBall(){
     // Mechanism to update ball location
     if(ballOrientationX == 0){
